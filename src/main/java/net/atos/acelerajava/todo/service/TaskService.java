@@ -5,6 +5,7 @@ import net.atos.acelerajava.todo.model.Task;
 import net.atos.acelerajava.todo.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import java.util.List;
 import java.util.Optional;
@@ -30,15 +31,6 @@ public class TaskService implements ITask {
         return optionalTask.orElse(null);
     }
 
-    @Transactional
-    @Override
-    public Task updateTaskById(Task task) {
-        if (this.taskRepository.existsById(task.getId())) {
-            return this.taskRepository.save(task);
-        }
-        return task;
-    }
-
     @Override
     public Task createTask(Task task) {
         return this.taskRepository.save(task);
@@ -47,5 +39,12 @@ public class TaskService implements ITask {
     @Override
     public void deleteTask(Long id) {
         this.taskRepository.deleteById(id);
+    }
+
+    public static Task populate(Model model) {
+        if (model.containsAttribute("taskForEdit")) {
+            return (Task) model.getAttribute("taskForEdit");
+        }
+        return new Task();
     }
 }

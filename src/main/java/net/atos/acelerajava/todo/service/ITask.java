@@ -10,8 +10,6 @@ public interface ITask {
 
     Task findTaskById(Long id);
 
-    Task updateTaskById(Task task);
-
     Task createTask(Task task);
 
     void deleteTask(Long id);
